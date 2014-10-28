@@ -1,0 +1,104 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_dark"
+    android:gravity="center"
+    tools:context="com.tapster.customer.NewUser" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <AutoCompleteTextView
+            android:id="@+id/firstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="First Name"
+            android:inputType="text|textPersonName"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+        <AutoCompleteTextView
+            android:id="@+id/lastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="Last Name"
+            android:inputType="text|textPersonName"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+        <AutoCompleteTextView
+            android:id="@+id/mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="Mobile"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+        <AutoCompleteTextView
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_email"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:layout_marginTop="20dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/creditcardnumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Credit Card:"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/creditcardexpiry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" 
+            android:hint="Expiry:" />
+
+        <Button
+            android:id="@+id/creditcard_scanbutton"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="scanCreditCard"
+            android:layout_marginTop="10dp"
+            android:text="Add Credit Card"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/signup_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="20dp"
+            android:onClick="signUp"
+            android:text="@string/action_sign_in"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#aa000022"
+        android:visibility="gone" >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateOnly="true" />
+    </RelativeLayout>
+
+</FrameLayout>

@@ -1,6 +1,5 @@
 package com.tapster.customer;
 
-import AzureConnectivity.AzureServiceConnection;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,6 +32,7 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.activity_main);
         
         ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.progressBarMain);
@@ -49,7 +49,6 @@ public class MainActivity extends ActionBarActivity implements
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         
-        AzureServiceConnection.Initialize(this,CustomerNotificationHandler.class);
     }
 
     @Override
