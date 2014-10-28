@@ -1,4 +1,4 @@
-package Utilities;
+package tapster.utilities;
 
 import android.app.AlertDialog;
 import android.content.Context;

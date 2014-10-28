@@ -1,6 +1,5 @@
-package Utilities;
+package tapster.utilities;
 
-import AzureConnectivity.AzureServiceConnection;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -10,6 +9,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.microsoft.windowsazure.notifications.NotificationsHandler;
 import com.tapster.R;
+import com.tapster.azureConnectivity.AzureServiceConnection;
 import com.tapster.customer.MainActivity;
 
 

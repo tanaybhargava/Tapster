@@ -1,4 +1,4 @@
-package Utilities;
+package tapster.utilities;
 
 import android.app.Activity;
 import android.widget.ProgressBar;
