@@ -1,4 +1,4 @@
-package AzureConnectivity;
+package com.tapster.azureConnectivity;
 
 public class Config 
 {

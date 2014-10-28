@@ -1,11 +1,12 @@
-package AzureConnectivity;
+package com.tapster.azureConnectivity;
 
 import java.net.MalformedURLException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import Utilities.TapsterNotificationHandler;
-import Utilities.ProgressFilter;
-import Utilities.Utility;
+import tapster.utilities.ProgressFilter;
+import tapster.utilities.TapsterNotificationHandler;
+import tapster.utilities.Utility;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -35,6 +36,7 @@ public class AzureServiceConnection {
 	private MobileServiceClient mClient;
 	
 	private Activity mainActivity;
+	private AzureCallback callback;
 	
 	private Class<TapsterNotificationHandler> notificationHandlerClass;
 		
@@ -47,9 +49,15 @@ public class AzureServiceConnection {
 			 Log.e(AzureServiceConnection.class.getName(),"Error in initalizing azure service connection.");
 	}
 	
+	public MobileServiceClient getClient()
+	{
+		return mClient;
+	}
+	
 	private AzureServiceConnection(Activity mainActivity,Class<TapsterNotificationHandler> notificationHandlerClass) 
 	{
 		this.mainActivity = mainActivity;
+		this.callback = (AzureCallback)(mainActivity);
 		this.notificationHandlerClass = notificationHandlerClass;
 	    try {
 	        // Create the Mobile Service Client instance, using the provided
@@ -60,12 +68,10 @@ public class AzureServiceConnection {
 	                   .withFilter(new ProgressFilter(mainActivity))
 	                   .withFilter(new RefreshTokenCacheFilter());
 
-	        // Authenticate passing false to load the current token cache if available.
-	        authenticate(false);
-
 	    } catch (MalformedURLException e) {
 	        Utility.createAndShowDialog(new Exception("Error creating the Mobile Service. " +
 	            "Verify the URL"), "Error",mainActivity);
+	        callback.ServiceRequestComplete(false);
 	    }
 	}
 
@@ -83,7 +89,7 @@ public class AzureServiceConnection {
 	      {
 	        if (exception != null)
 	        {
-	          // handle exception
+				 Log.e(AzureServiceConnection.class.getName(),"Error in registering for push.");
 	        }
 	      }
 	  });
@@ -92,6 +98,7 @@ public class AzureServiceConnection {
 	private void registerNotificationHandler() 
 	{
 		NotificationsManager.handleNotifications(mainActivity, Config.SENDER_ID, notificationHandlerClass);
+		callback.ServiceRequestComplete(true);
 	}
 	
 	private void cacheUserToken(MobileServiceUser user)
@@ -178,7 +185,7 @@ public class AzureServiceConnection {
 	 * @param bRefreshCache
 	 *            Indicates whether to force a token refresh. 
 	 */
-	private void authenticate(boolean bRefreshCache) {
+	public void authenticate(boolean bRefreshCache) {
 
 	    bAuthenticating = true;
 
@@ -198,6 +205,7 @@ public class AzureServiceConnection {
 	                                registerNotificationHandler();
 	                            } else {
 	                                Utility.createAndShowDialog(exception.getMessage(), "Login Error",mainActivity);
+	                                callback.ServiceRequestComplete(false);
 	                            }
 	                            bAuthenticating = false;
 	                            mAuthenticationLock.notifyAll();
