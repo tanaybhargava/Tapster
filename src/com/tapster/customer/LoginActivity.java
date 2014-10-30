@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
@@ -57,7 +56,10 @@ public class LoginActivity extends Activity implements AzureCallback
 		{
 			UserExists();
 		} else
+		{
 			loginButton.setVisibility(Button.VISIBLE);
+			progressbar.setVisibility(ProgressBar.GONE);
+		}
 	}
 
 	private void UserExists()
@@ -81,8 +83,7 @@ public class LoginActivity extends Activity implements AzureCallback
 					if (result.size() == 0)
 						setupNewUser(userId);
 					else
-						StartMainActivity(result.get(0));
-
+						StartMainActivity();
 				} else
 				{
 					Log.e(LoginActivity.class.getName(), "Error in fetching user.");
@@ -100,9 +101,11 @@ public class LoginActivity extends Activity implements AzureCallback
 		progressbar.setVisibility(ProgressBar.GONE);
 	}
 
-	private void StartMainActivity(User user)
+	private void StartMainActivity()
 	{
-		Toast.makeText(this, "Logged in", Toast.LENGTH_LONG).show();
+		Intent myIntent = new Intent(this, MainActivity.class);
+		startActivity(myIntent);
+		finish();
 	}
 
 	private void Login(boolean refreshToken)
@@ -112,4 +115,6 @@ public class LoginActivity extends Activity implements AzureCallback
 		progressbar.setVisibility(ProgressBar.VISIBLE);
 		AzureServiceConnection.instance.authenticate(refreshToken);
 	}
+	
+	
 }
