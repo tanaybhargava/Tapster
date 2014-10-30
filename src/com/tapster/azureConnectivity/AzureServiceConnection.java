@@ -43,7 +43,7 @@ public class AzureServiceConnection {
 	@SuppressWarnings("unchecked")
 	public static <T extends TapsterNotificationHandler> void Initialize(Activity mainActivity,Class<T> notificationHandlerClass)
 	{
-		if(instance==null && mainActivity!=null)
+		if(mainActivity!=null)
 			instance = new AzureServiceConnection(mainActivity,(Class<TapsterNotificationHandler>) notificationHandlerClass);
 		else
 			 Log.e(AzureServiceConnection.class.getName(),"Error in initalizing azure service connection.");

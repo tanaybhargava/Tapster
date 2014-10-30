@@ -3,10 +3,7 @@ package com.tapster.customer;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +19,6 @@ import com.microsoft.windowsazure.mobileservices.TableQueryCallback;
 import com.tapster.R;
 import com.tapster.azureConnectivity.AzureCallback;
 import com.tapster.azureConnectivity.AzureServiceConnection;
-import com.tapster.azureConnectivity.Config;
 import com.tapster.data.User;
 
 public class LoginActivity extends Activity implements AzureCallback
@@ -43,7 +39,7 @@ public class LoginActivity extends Activity implements AzureCallback
 			@Override
 			public void onClick(View v)
 			{
-				Login();
+				Login(true);
 			}
 		});
 
@@ -51,7 +47,7 @@ public class LoginActivity extends Activity implements AzureCallback
 		AzureServiceConnection.Initialize(this, CustomerNotificationHandler.class);
 
 		// Auto Login:
-		Login();
+		Login(false);
 	}
 
 	@Override
@@ -82,7 +78,7 @@ public class LoginActivity extends Activity implements AzureCallback
 			{
 				if (exception == null)
 				{
-					if (count == 0)
+					if (result.size() == 0)
 						setupNewUser(userId);
 					else
 						StartMainActivity(result.get(0));
@@ -109,11 +105,11 @@ public class LoginActivity extends Activity implements AzureCallback
 		Toast.makeText(this, "Logged in", Toast.LENGTH_LONG).show();
 	}
 
-	private void Login()
+	private void Login(boolean refreshToken)
 	{
 		// Hide Button and progress bar.
 		loginButton.setVisibility(Button.INVISIBLE);
 		progressbar.setVisibility(ProgressBar.VISIBLE);
-		AzureServiceConnection.instance.authenticate(true);
+		AzureServiceConnection.instance.authenticate(refreshToken);
 	}
 }
