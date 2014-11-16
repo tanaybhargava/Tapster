@@ -5,10 +5,10 @@ public class User
 	@com.google.gson.annotations.SerializedName("id")
 	private String mId;
 	
-	@com.google.gson.annotations.SerializedName("firstName")
+	@com.google.gson.annotations.SerializedName("firstname")
 	private String firstName;
 	
-	@com.google.gson.annotations.SerializedName("lastName")
+	@com.google.gson.annotations.SerializedName("lastname")
 	private String lastName;
 
 	@com.google.gson.annotations.SerializedName("mobile")
