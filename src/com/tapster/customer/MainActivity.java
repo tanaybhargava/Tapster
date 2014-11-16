@@ -12,11 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.tapster.R;
 import com.tapster.azureConnectivity.AzureServiceConnection;
+import com.tapster.barMenu.BarMenu;
 
 public class MainActivity extends ActionBarActivity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks
@@ -41,11 +41,6 @@ public class MainActivity extends ActionBarActivity implements
 
 		setContentView(R.layout.activity_main);
 
-		ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.progressBarMain);
-
-		// Initialize the progress bar
-		mProgressBar.setVisibility(ProgressBar.GONE);
-
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
 
@@ -68,6 +63,10 @@ public class MainActivity extends ActionBarActivity implements
 		case 0:
 			fragment = new ProfileFragment();
 			break;
+		case 1:
+			fragment = new BarMenu();
+			break;
+
 		default:
 			Toast.makeText(this, "Postiion = " + position, Toast.LENGTH_LONG).show();
 		}
