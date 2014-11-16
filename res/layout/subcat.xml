@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_dark"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <Button
+        android:id="@+id/tabButton3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/itemsView1"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:text="Button" />
+
+    <ListView
+        android:id="@+id/itemsView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" >
+    </ListView>
+
+</RelativeLayout>
