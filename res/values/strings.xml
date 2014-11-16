@@ -2,11 +2,11 @@
 <resources>
 
     <string name="app_name">Tapster</string>
-    <string name="title_section1">Profile</string>
-    <string name="title_section2">Menu</string>
+    <string name="title_section1">My Profile</string>
+    <string name="title_section2">Bar Menu</string>
     <string name="title_section3">Pending Orders</string>
-    <string name="title_section4">Open Tabs</string>
-    <string name="title_section5">Previous Orders</string>
+    <string name="title_section4">Open Tab</string>
+    <string name="title_section5">Transaction History</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_logout">Log Out</string>
