@@ -1,6 +1,6 @@
 package com.tapster.customer;
 
-import tapster.utilities.TapsterNotificationHandler;
+import com.tapster.utilities.TapsterNotificationHandler;
 
 public class CustomerNotificationHandler extends TapsterNotificationHandler
 {
