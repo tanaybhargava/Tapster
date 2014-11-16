@@ -1,4 +1,4 @@
-package tapster.utilities;
+package com.tapster.utilities;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;

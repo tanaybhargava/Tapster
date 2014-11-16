@@ -3,9 +3,6 @@ package com.tapster.azureConnectivity;
 import java.net.MalformedURLException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import tapster.utilities.ProgressFilter;
-import tapster.utilities.TapsterNotificationHandler;
-import tapster.utilities.Utility;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +25,9 @@ import com.microsoft.windowsazure.mobileservices.ServiceFilterResponseCallback;
 import com.microsoft.windowsazure.mobileservices.UserAuthenticationCallback;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 import com.tapster.customer.LoginActivity;
+import com.tapster.utilities.ProgressFilter;
+import com.tapster.utilities.TapsterNotificationHandler;
+import com.tapster.utilities.Utility;
 
 @SuppressWarnings("deprecation")
 public class AzureServiceConnection
