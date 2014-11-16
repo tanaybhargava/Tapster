@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.tapster.R;
 import com.tapster.azureConnectivity.AzureServiceConnection;
@@ -59,6 +60,21 @@ public class MainActivity extends ActionBarActivity implements
 		// update the main content by replacing fragments
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager.beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).commit();
+
+		Fragment fragment = null;
+
+		switch (position)
+		{
+		case 0:
+			fragment = new ProfileFragment();
+			break;
+		default:
+			Toast.makeText(this, "Postiion = " + position, Toast.LENGTH_LONG).show();
+		}
+
+		if (fragment != null)
+			getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+
 	}
 
 	public void onSectionAttached(int number)
@@ -74,6 +90,13 @@ public class MainActivity extends ActionBarActivity implements
 		case 3:
 			mTitle = getString(R.string.title_section3);
 			break;
+		case 4:
+			mTitle = getString(R.string.title_section4);
+			break;
+		case 5:
+			mTitle = getString(R.string.title_section5);
+			break;
+
 		}
 	}
 
@@ -110,8 +133,8 @@ public class MainActivity extends ActionBarActivity implements
 		int id = item.getItemId();
 		if (id == R.id.action_logout)
 		{
-        	AzureServiceConnection.LogOut(this);
-			return true;
+			AzureServiceConnection.LogOut(this);
+			return false;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -158,6 +181,5 @@ public class MainActivity extends ActionBarActivity implements
 			((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
 		}
 	}
-	
-	
+
 }
