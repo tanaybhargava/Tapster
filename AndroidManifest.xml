@@ -20,6 +20,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -69,9 +71,15 @@
             android:label="@string/title_activity_new_user"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
-    </application>
 
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+        <!-- Bar Menu Activities -->
+
+        <activity android:name=".barMenu.CategoryMenu" >
+        </activity>
+        <activity android:name=".barMenu.Tab" >
+        </activity>
+        
+        
+    </application>
 
 </manifest>
