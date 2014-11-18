@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+<TextView 
+    android:id="@+id/orderItem"
     android:layout_width="match_parent"
     android:layout_height="80dp" 
+    android:layout_gravity="left"
     android:textAppearance="?android:attr/textAppearanceLarge">
 </TextView>
+
+<TextView
+    android:id="@+id/orderPrice"
+    android:layout_width="match_parent"
+    android:layout_height="80dp" 
+    android:layout_gravity="right"
+    android:textAppearance="?android:attr/textAppearanceLarge">
+</TextView>
+
+</LinearLayout>

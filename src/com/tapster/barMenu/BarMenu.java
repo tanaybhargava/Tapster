@@ -3,18 +3,15 @@ package com.tapster.barMenu;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +25,6 @@ public class BarMenu extends Fragment
 
 	public static String SetCategory;
 
-	private Button showTab;
-
 	private Context ctx;
 	private View rootView;
 
@@ -40,26 +35,12 @@ public class BarMenu extends Fragment
 		ctx = getActivity().getApplicationContext();
 		rootView = inflater.inflate(R.layout.barmenu, container, false);
 
-		showTab = (Button) rootView.findViewById(R.id.tabButton2);
-		showTab.setText("see my tab");
-		showTab.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				Intent myIntent = new Intent(ctx, Tab.class);
-				startActivity(myIntent);
-
-			}
-		});
-
 		accesDB();
 		pupulateDB();
 		getCategories();
 		ClickCategory();
 
 		return rootView;
-
 	}
 
 	private void getCategories()
@@ -118,17 +99,10 @@ public class BarMenu extends Fragment
 
 	}
 
-	private void exitDB()
-	{
-		menuDB.deleteAll();
-		menuDB.close();
-	}
-
 	@Override
 	public void onDestroyView()
 	{
 		super.onDestroy();
-		exitDB();
 	}
 
 	private void ClickCategory()
@@ -136,7 +110,7 @@ public class BarMenu extends Fragment
 		ListView CategoryList = (ListView) rootView.findViewById(R.id.categoriesList);
 		CategoryList.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
-
+			//Fragment fragment = null;
 			@Override
 			public void onItemClick(AdapterView<?> parent, View viewClicked,
 					int position, long id)
@@ -144,8 +118,7 @@ public class BarMenu extends Fragment
 				TextView textView = (TextView) viewClicked;
 				SetCategory = textView.getText().toString();
 				Toast.makeText(ctx, SetCategory, Toast.LENGTH_LONG).show();
-				Intent myIntent = new Intent(ctx, CategoryMenu.class);
-				startActivity(myIntent);
+				getFragmentManager().beginTransaction().replace(R.id.container, new CategoryMenu()).addToBackStack("").commit();
 			}
 		});
 

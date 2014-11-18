@@ -12,11 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.tapster.R;
 import com.tapster.azureConnectivity.AzureServiceConnection;
 import com.tapster.barMenu.BarMenu;
+import com.tapster.barMenu.OrderFragment;
+import com.tapster.barMenu.PendingOrderFragment;
+import com.tapster.barMenu.Tab;
 
 public class MainActivity extends ActionBarActivity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks
@@ -66,9 +68,17 @@ public class MainActivity extends ActionBarActivity implements
 		case 1:
 			fragment = new BarMenu();
 			break;
+		case 2:
+			fragment = new OrderFragment();
+			break;
+		case 3:
+			fragment = new PendingOrderFragment();
+			break;
+		case 4:
+			fragment = new Tab();
+			break;
 
 		default:
-			Toast.makeText(this, "Postiion = " + position, Toast.LENGTH_LONG).show();
 		}
 
 		if (fragment != null)
@@ -94,6 +104,9 @@ public class MainActivity extends ActionBarActivity implements
 			break;
 		case 5:
 			mTitle = getString(R.string.title_section5);
+			break;
+		case 6:
+			mTitle = getString(R.string.title_section6);
 			break;
 
 		}

@@ -2,12 +2,6 @@ package com.tapster.customer;
 
 import java.util.ArrayList;
 
-
-import com.tapster.R;
-import com.tapster.barMenu.AddonDB;
-import com.tapster.barMenu.BarMenuDB;
-import com.tapster.barMenu.Tab;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.database.Cursor;
@@ -22,6 +16,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tapster.R;
+import com.tapster.barMenu.AddonDB;
+import com.tapster.barMenu.BarMenuDB;
+import com.tapster.barMenu.OrderFragment;
+import com.tapster.data.Order;
+
 public class ConfirmDialog extends Dialog implements
 android.view.View.OnClickListener {
 
@@ -33,7 +33,6 @@ private float price;
 public String addToOrderString;
 public float addToOrderPrice;
 public Button comfirm;
-public Button cancel;
 public Button addToOrder;
 public AddonDB menuDB;
 public String category;
@@ -51,12 +50,6 @@ category=Category;
 
 }
 
-public void addToOrder()
-{
-	
-
-}
-
 @Override
 protected void onCreate(Bundle savedInstanceState) {
 super.onCreate(savedInstanceState);
@@ -65,13 +58,11 @@ setContentView(R.layout.confirm_order);
 accesDB();
 populateDB();
 comfirm = (Button) findViewById(R.id.button_Confirm);
-cancel = (Button) findViewById(R.id.button_Cancel);
 addToOrder = (Button) findViewById(R.id.button_add);
 updateOrderString(order);
 setTotal();
 setAddSpinner();
 comfirm.setOnClickListener(this);
-cancel.setOnClickListener(this);
 addToOrder.setOnClickListener(this);
 
 }
@@ -117,13 +108,12 @@ public void onClick(View v) {
     	Toast.makeText(a, message, Toast.LENGTH_LONG).show();
     	String temp=order;
     	temp+="$"+price;
-    	Tab.getNewOrder(temp);
+    	
+    	Order newOrder = new Order(order,price);
+    	
+    	OrderFragment.getNewItem(newOrder);
     	exitDB();
     	dismiss();
-      break;
-    case R.id.button_Cancel:
-    	exitDB();
-      dismiss();
       break;
     case R.id.button_add:
     	order+=" + "+addToOrderString;

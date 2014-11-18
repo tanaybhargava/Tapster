@@ -2,158 +2,243 @@ package com.tapster.barMenu;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.tapster.R;
+import com.tapster.data.Order;
+import com.tapster.data.OrderList;
+import com.tapster.ui.OrderAdapter;
 
-public class Tab extends Activity{
-	
-	public static ArrayList<String> items=new ArrayList<String>();
-	public static ArrayAdapter<String> adapter;
-	
+public class Tab extends Fragment
+{
+
+	public static OrderList items = new OrderList();
+	public static OrderAdapter adapter;
+
 	private static float total;
 	private static float subTotal;
 	private float tipAmount;
 	private Button pay;
-	private Button later;
-	
-	protected void onCreate(Bundle savedInstanceState)
+	//private Button later;
+	private ToggleButton tip15, tip20, tip30, tipCustom;
+
+	private Context ctx;
+	private View rootView;
+
+	public View onCreateView(LayoutInflater inflater,
+			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.tab);
-		setTipSpinner();
+		ctx = getActivity().getApplicationContext();
+		rootView = inflater.inflate(R.layout.tab, container, false);
 
-		pay = (Button) findViewById(R.id.button_Pay);
-		later = (Button) findViewById(R.id.button_Later);
+		setTipAmount(20);
+		tip15 = (ToggleButton) rootView.findViewById(R.id.button_15);
+		tip20 = (ToggleButton) rootView.findViewById(R.id.button_20);
+		tip30 = (ToggleButton) rootView.findViewById(R.id.button_30);
+		tipCustom = (ToggleButton) rootView.findViewById(R.id.button_customAmount);
+		setTipButtons(tip15);
+		setTipButtons(tip20);
+		setTipButtons(tip30);
+		setTipButtons(tipCustom);
+		tip20.setChecked(true);
 
-		ListView tabText =(ListView) findViewById(R.id.tabList);
-		adapter= new ArrayAdapter<String>(this, R.layout.tabtext, items);
+		pay = (Button) rootView.findViewById(R.id.button_Pay);
+//		later = (Button) rootView.findViewById(R.id.button_Later);
+		ListView tabText = (ListView) rootView.findViewById(R.id.tabList);
+		adapter = new OrderAdapter(ctx,R.layout.tabtext, items.getItems());
 		adapter.setNotifyOnChange(true);
 		tabText.setAdapter(adapter);
 		setCCSpinner();
 		setTotal();
-		
 		ClickBars(pay);
-		ClickBars(later);
+//		ClickBars(later);
+
+		return rootView;
 	}
 
-
-public static void  getNewOrder(String order)
-{
-	items.add(order);
-	String priceString=order.substring(order.indexOf('$')+1);
-	float temp=Float.parseFloat(priceString);
-	subTotal+=temp;
 	
-}
-	private void setTipSpinner() {
-		Spinner dropdown = (Spinner)findViewById(R.id.spinner_tip);
-		String[] tipPercentages = new String[]{"10%","15%", "20%","25%", "30%", "35%","40%", "45%", "50%", "60%", "70%", "80%", "90%", "100%", "120%", "140%", "150%", "180%"};
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(Tab.this, R.layout.myspineritem, tipPercentages);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		dropdown.setAdapter(adapter);
-		dropdown.setSelection(3);
-		dropdown.setOnItemSelectedListener(new OnItemSelectedListener(){
 
+	private void setTipButtons(ToggleButton b)
+	{
+		b.setOnClickListener(new OnClickListener()
+		{
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				TextView textView = (TextView) view;
-				String tipString =  textView.getText().toString().substring(0, textView.getText().toString().indexOf('%'));
-		    	setTipAmount(Float.parseFloat(tipString));
+			public void onClick(View v)
+			{
+				switch (v.getId())
+				{
+				case R.id.button_15:
+					tip15.setChecked(true);
+					tip20.setChecked(false);
+					tip30.setChecked(false);
+					setTipAmount(15);
+					break;
+				case R.id.button_20:
+					tip15.setChecked(false);
+					tip20.setChecked(true);
+					tip30.setChecked(false);
+					setTipAmount(20);
+					break;
+				case R.id.button_30:
+					tip15.setChecked(false);
+					tip20.setChecked(false);
+					tip30.setChecked(true);
+					setTipAmount(30);
+					break;
+				case R.id.button_customAmount:
+					ToggleButton x = (ToggleButton) rootView.findViewById(R.id.button_customAmount);
+					if (x.isChecked() == false)
+					{
+						EditText textField = (EditText) rootView.findViewById(R.id.Text_customTip);
+						Button done = (Button) rootView.findViewById(R.id.button_tip_done);
+						done.setVisibility(View.GONE);
+						textField.setVisibility(View.GONE);
+						tip15.setVisibility(View.VISIBLE);
+						tip20.setVisibility(View.VISIBLE);
+						tip30.setVisibility(View.VISIBLE);
 
+					} else
+					{
+						tip15.setVisibility(View.GONE);
+						tip20.setVisibility(View.GONE);
+						tip30.setVisibility(View.GONE);
+						EditText textField = (EditText) rootView.findViewById(R.id.Text_customTip);
+						Button done = (Button) rootView.findViewById(R.id.button_tip_done);
+						done.setVisibility(View.VISIBLE);
+						textField.setVisibility(View.VISIBLE);
+						setCustomTip(done);
+					}
+					break;
+				default:
+					break;
+				}
 			}
 
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				// TODO Auto-generated method stub
-				
+			private void setCustomTip(Button done)
+			{
+				done.setOnClickListener(new OnClickListener()
+				{
+
+					@Override
+					public void onClick(View v)
+					{
+						EditText textField = (EditText) rootView.findViewById(R.id.Text_customTip);
+						String temp = textField.getText().toString();
+						if (temp.isEmpty())
+						{
+							tipAmount = 20;
+							setTotal();
+						} else
+						{
+							float x = Float.parseFloat(temp);
+							tipAmount = x;
+							Toast.makeText(ctx, temp, Toast.LENGTH_LONG).show();
+							setTotal();
+						}
+					}
+
+				});
+
 			}
-		
 		});
-
 	}
-	
-	private void setCCSpinner() {
-		Spinner dropdown = (Spinner)findViewById(R.id.spinner_CC);
-		String[] CClist = new String[]{"Visa ending in 666", "othercard%"};
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(Tab.this, R.layout.myspineritem, CClist);
+
+	private void setCCSpinner()
+	{
+		Spinner dropdown = (Spinner) rootView.findViewById(R.id.spinner_CC);
+		String[] CClist = new String[] { "Visa ending in 666", "othercard%" };
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, R.layout.myspineritem, CClist);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		dropdown.setAdapter(adapter);
-		dropdown.setOnItemSelectedListener(new OnItemSelectedListener(){
+		dropdown.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
+					int position, long id)
+			{
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
+			public void onNothingSelected(AdapterView<?> parent)
+			{
 				// TODO Auto-generated method stub
-				
-			}});
+
+			}
+		});
 	}
-	
-private void ClickBars(Button b) {
-		b.setOnClickListener(new OnClickListener() {
+
+	private void ClickBars(Button b)
+	{
+		b.setOnClickListener(new OnClickListener()
+		{
 			@Override
-		public void onClick(View v) {
-				switch (v.getId()) {
-			    case R.id.button_Pay:
-			    	String message=total+" charged to: ";
-			    	Toast.makeText(Tab.this, message, Toast.LENGTH_LONG).show();
-			    	items.clear();
-			    	adapter.clear();
-			    	clearTotal();
-			      break;
-			    case R.id.button_Later:
-			    	finish();
-			      break;
-			    default:
-			    	finish();
-			      break;
-			    }
-			
-		}
-	});
+			public void onClick(View v)
+			{
+				switch (v.getId())
+				{
+				case R.id.button_Pay:
+					String message = total + " charged to: ";
+					Toast.makeText(ctx, message, Toast.LENGTH_LONG).show();
+					items = new OrderList();
+					adapter.clear();
+					clearTotal();
+					break;
+				}
+
+			}
+		});
 	}
 
 	public void setTipAmount(float x)
 	{
-		float percentage=x/100;
-		tipAmount=subTotal*percentage;
+		float percentage = x / 100;
+		tipAmount = subTotal * percentage;
 		setTotal();
 	}
 
-
 	public void setTotal()
 	{
-		total=subTotal+tipAmount;
-		TextView textView2 =(TextView) findViewById(R.id.string_total);
-		textView2.setText("Total: $"+total);
+		total = subTotal + tipAmount;
+		TextView textView2 = (TextView) rootView.findViewById(R.id.string_total);
+		textView2.setText("Total: $" + total);
 	}
-	
+
 	public void clearTotal()
 	{
-		subTotal=0;
-		total=0;
-		TextView textView2 =(TextView) findViewById(R.id.string_total);
-		textView2.setText("Total: $"+total);
+		subTotal = 0;
+		total = 0;
+		TextView textView2 = (TextView) rootView.findViewById(R.id.string_total);
+		textView2.setText("Total: $" + total);
 	}
-	
+
+	public static void getNewOrders(OrderList newOrder)
+	{
+		for (Order order: newOrder.getItems())
+		{
+			items.AddOrder(order);
+		}
+		subTotal+=items.getTotal();
+	}
 
 }
