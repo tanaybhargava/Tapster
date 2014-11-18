@@ -5,6 +5,7 @@ import java.util.List;
 import com.tapster.R;
 import com.tapster.data.OrderList;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +21,12 @@ public class OrderListAdapter extends ArrayAdapter<OrderList>
 		super(context, resource, objects);
 	}
 
-	@Override
+	@SuppressLint("ViewHolder") @Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.pending_order_text, parent, false);
+		convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.listentry_textview, parent, false);
 
-		TextView name = (TextView) convertView.findViewById(R.id.orderListItem);
+		TextView name = (TextView) convertView.findViewById(R.id.list_item);
 
 		name.setText(getItem(position).printOrder());
 

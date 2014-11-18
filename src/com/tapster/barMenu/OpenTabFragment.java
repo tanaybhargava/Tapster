@@ -1,7 +1,5 @@
 package com.tapster.barMenu;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,15 +20,15 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.tapster.R;
-import com.tapster.data.Order;
+import com.tapster.data.OrderItem;
 import com.tapster.data.OrderList;
-import com.tapster.ui.OrderAdapter;
+import com.tapster.ui.OrderItemAdapter;
 
-public class Tab extends Fragment
+public class OpenTabFragment extends Fragment
 {
 
 	public static OrderList items = new OrderList();
-	public static OrderAdapter adapter;
+	public static OrderItemAdapter adapter;
 
 	private static float total;
 	private static float subTotal;
@@ -47,7 +45,7 @@ public class Tab extends Fragment
 	{
 
 		ctx = getActivity().getApplicationContext();
-		rootView = inflater.inflate(R.layout.tab, container, false);
+		rootView = inflater.inflate(R.layout.fragment_open_tab, container, false);
 
 		setTipAmount(20);
 		tip15 = (ToggleButton) rootView.findViewById(R.id.button_15);
@@ -63,7 +61,7 @@ public class Tab extends Fragment
 		pay = (Button) rootView.findViewById(R.id.button_Pay);
 //		later = (Button) rootView.findViewById(R.id.button_Later);
 		ListView tabText = (ListView) rootView.findViewById(R.id.tabList);
-		adapter = new OrderAdapter(ctx,R.layout.tabtext, items.getItems());
+		adapter = new OrderItemAdapter(ctx,R.layout.listentry_menu_item, items.getItems());
 		adapter.setNotifyOnChange(true);
 		tabText.setAdapter(adapter);
 		setCCSpinner();
@@ -234,7 +232,7 @@ public class Tab extends Fragment
 
 	public static void getNewOrders(OrderList newOrder)
 	{
-		for (Order order: newOrder.getItems())
+		for (OrderItem order: newOrder.getItems())
 		{
 			items.AddOrder(order);
 		}

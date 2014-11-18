@@ -1,10 +1,10 @@
 package com.tapster.data;
-public class Order
+public class OrderItem
 {
 	public String itemName;
 	public float price;
 
-	public Order(String n, float p)
+	public OrderItem(String n, float p)
 	{
 		itemName = n;
 		price = p;

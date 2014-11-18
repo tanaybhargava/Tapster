@@ -1,4 +1,4 @@
-package com.tapster.customer;
+package com.tapster.barMenu;
 
 import java.util.ArrayList;
 
@@ -17,12 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tapster.R;
-import com.tapster.barMenu.AddonDB;
-import com.tapster.barMenu.BarMenuDB;
-import com.tapster.barMenu.OrderFragment;
-import com.tapster.data.Order;
+import com.tapster.data.OrderItem;
 
-public class ConfirmDialog extends Dialog implements
+public class OrderConfirmDialog extends Dialog implements
 android.view.View.OnClickListener {
 
 public Activity a;
@@ -39,7 +36,7 @@ public String category;
 
 
 
-public ConfirmDialog(Activity a, String name, String Category) {
+public OrderConfirmDialog(Activity a, String name, String Category) {
 	
 super(a);
 this.a = a;
@@ -54,7 +51,7 @@ category=Category;
 protected void onCreate(Bundle savedInstanceState) {
 super.onCreate(savedInstanceState);
 requestWindowFeature(Window.FEATURE_NO_TITLE);
-setContentView(R.layout.confirm_order);
+setContentView(R.layout.dialog_order_confirm);
 accesDB();
 populateDB();
 comfirm = (Button) findViewById(R.id.button_Confirm);
@@ -103,15 +100,10 @@ public void setAddSpinner() {
 public void onClick(View v) {
 	switch (v.getId()) {
     case R.id.button_Confirm:
-    	String message="order placed: ";
-    	message+=order;
-    	Toast.makeText(a, message, Toast.LENGTH_LONG).show();
-    	String temp=order;
-    	temp+="$"+price;
+    
+    	OrderItem newOrder = new OrderItem(order,price);
     	
-    	Order newOrder = new Order(order,price);
-    	
-    	OrderFragment.getNewItem(newOrder);
+    	CurrentOrderFragment.getNewItem(newOrder);
     	exitDB();
     	dismiss();
       break;

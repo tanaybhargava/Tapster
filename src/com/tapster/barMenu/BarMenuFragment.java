@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.tapster.R;
 
-public class BarMenu extends Fragment
+public class BarMenuFragment extends Fragment
 {
 
 	public static BarMenuDB menuDB;
@@ -33,7 +33,7 @@ public class BarMenu extends Fragment
 	{
 
 		ctx = getActivity().getApplicationContext();
-		rootView = inflater.inflate(R.layout.barmenu, container, false);
+		rootView = inflater.inflate(R.layout.fragment_bar_menu, container, false);
 
 		accesDB();
 		pupulateDB();
@@ -59,7 +59,7 @@ public class BarMenu extends Fragment
 				}
 			} while (cursor.moveToNext());
 		}
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, R.layout.categories, Categories);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, R.layout.listentry_textview, Categories);
 		ListView Categorylist = (ListView) rootView.findViewById(R.id.categoriesList);
 		Categorylist.setAdapter(adapter);
 
@@ -118,7 +118,7 @@ public class BarMenu extends Fragment
 				TextView textView = (TextView) viewClicked;
 				SetCategory = textView.getText().toString();
 				Toast.makeText(ctx, SetCategory, Toast.LENGTH_LONG).show();
-				getFragmentManager().beginTransaction().replace(R.id.container, new CategoryMenu()).addToBackStack("").commit();
+				getFragmentManager().beginTransaction().replace(R.id.container, new ItemMenuFragment()).addToBackStack("").commit();
 			}
 		});
 

@@ -4,26 +4,26 @@ import java.util.ArrayList;
 
 public class OrderList
 {
-	ArrayList<Order> items;
+	ArrayList<OrderItem> items;
 
 	public OrderList(OrderList copy)
 	{
-		items = new ArrayList<Order>();
-		for (Order order : copy.items)
+		items = new ArrayList<OrderItem>();
+		for (OrderItem order : copy.items)
 			items.add(order);
 	}
 
 	public OrderList()
 	{
-		items = new ArrayList<Order>();
+		items = new ArrayList<OrderItem>();
 	}
 
-	public void AddOrder(Order order)
+	public void AddOrder(OrderItem order)
 	{
 		items.add(order);
 	}
 
-	public ArrayList<Order> getItems()
+	public ArrayList<OrderItem> getItems()
 	{
 		return items;
 	}
@@ -32,7 +32,7 @@ public class OrderList
 	{
 		String result = "";
 
-		for (Order order : items)
+		for (OrderItem order : items)
 		{
 			result += order.itemName + "\n\n";
 		}
@@ -44,7 +44,7 @@ public class OrderList
 	{
 		float total = 0;
 
-		for (Order order : items)
+		for (OrderItem order : items)
 		{
 			total += order.price;
 		}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Tapster</string>
+    <string name="app_name">eXtab</string>
     <string name="title_section1">My Profile</string>
     <string name="title_section2">Bar Menu</string>
     <string name="title_section3">Current Order</string>

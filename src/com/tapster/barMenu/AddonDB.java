@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.tapster.customer.ConfirmDialog;
 
 public class AddonDB {
 	
@@ -53,7 +52,7 @@ public class AddonDB {
 		private DatabaseHelper2 myDBHelper;
 		private SQLiteDatabase DB;
 
-		public AddonDB(ConfirmDialog confirmDialog) {
+		public AddonDB(OrderConfirmDialog confirmDialog) {
 			this.context = confirmDialog.getContext();
 			myDBHelper = new DatabaseHelper2(context);
 		}

@@ -15,15 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tapster.R;
-import com.tapster.data.Order;
+import com.tapster.data.OrderItem;
 import com.tapster.data.OrderList;
-import com.tapster.ui.OrderAdapter;
+import com.tapster.ui.OrderItemAdapter;
 
-public class OrderFragment extends Fragment
+public class CurrentOrderFragment extends Fragment
 {
 
 	public static OrderList items = new OrderList();
-	public static ArrayAdapter<Order> adapter;
+	public static ArrayAdapter<OrderItem> adapter;
 
 	private static float total;
 
@@ -37,11 +37,11 @@ public class OrderFragment extends Fragment
 	{
 
 		ctx = getActivity().getApplicationContext();
-		rootView = inflater.inflate(R.layout.order_fragment, container, false);
+		rootView = inflater.inflate(R.layout.fragment_current_order, container, false);
 
 		placeOrder = (Button) rootView.findViewById(R.id.button_placeOrder);
 		ListView tabText = (ListView) rootView.findViewById(R.id.orderList);
-		adapter = new OrderAdapter(ctx,R.layout.tabtext, items.getItems());
+		adapter = new OrderItemAdapter(ctx,R.layout.listentry_menu_item, items.getItems());
 		adapter.setNotifyOnChange(true);
 		tabText.setAdapter(adapter);
 		ClickBars(placeOrder);
@@ -49,7 +49,7 @@ public class OrderFragment extends Fragment
 		return rootView;
 	}
 
-	public static void getNewItem(Order newOrder)
+	public static void getNewItem(OrderItem newOrder)
 	{
 		items.AddOrder(newOrder);	
 

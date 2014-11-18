@@ -15,10 +15,10 @@ import android.view.ViewGroup;
 
 import com.tapster.R;
 import com.tapster.azureConnectivity.AzureServiceConnection;
-import com.tapster.barMenu.BarMenu;
-import com.tapster.barMenu.OrderFragment;
+import com.tapster.barMenu.BarMenuFragment;
+import com.tapster.barMenu.CurrentOrderFragment;
 import com.tapster.barMenu.PendingOrderFragment;
-import com.tapster.barMenu.Tab;
+import com.tapster.barMenu.OpenTabFragment;
 
 public class MainActivity extends ActionBarActivity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks
@@ -66,16 +66,16 @@ public class MainActivity extends ActionBarActivity implements
 			fragment = new ProfileFragment();
 			break;
 		case 1:
-			fragment = new BarMenu();
+			fragment = new BarMenuFragment();
 			break;
 		case 2:
-			fragment = new OrderFragment();
+			fragment = new CurrentOrderFragment();
 			break;
 		case 3:
 			fragment = new PendingOrderFragment();
 			break;
 		case 4:
-			fragment = new Tab();
+			fragment = new OpenTabFragment();
 			break;
 
 		default:
