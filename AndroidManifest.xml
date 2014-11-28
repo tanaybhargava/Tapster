@@ -66,6 +66,12 @@
         </activity>
         <activity android:name=".customer.MainActivity" >
         </activity>
+        <activity android:name=".customer.CollectOrderActivity" >
+        </activity>
+        <activity
+            android:name=".utilities.ProgressActivity"
+            android:theme="@style/Theme.Transparent" >
+        </activity>
         <activity
             android:name="com.tapster.customer.NewUser"
             android:label="@string/title_activity_new_user"
@@ -78,8 +84,6 @@
         </activity>
         <activity android:name=".barMenu.Tab" >
         </activity>
-        
-        
     </application>
 
 </manifest>

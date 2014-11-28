@@ -1,10 +1,25 @@
 package com.tapster.data;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import android.util.Log;
 
 public class OrderList
 {
-	ArrayList<OrderItem> items;
+	@com.google.gson.annotations.SerializedName("id")
+	private String mId;
+
+	@com.google.gson.annotations.SerializedName("content")
+	private String mSerializedString = "";
+
+	@com.google.gson.annotations.SerializedName("color")
+	private int mColor;
+
+	@com.google.gson.annotations.SerializedName("complete")
+	private Boolean mComplete = false;
+
+	transient List<OrderItem> items;
 
 	public OrderList(OrderList copy)
 	{
@@ -18,12 +33,29 @@ public class OrderList
 		items = new ArrayList<OrderItem>();
 	}
 
+	public int getmColor()
+	{
+		return mColor;
+	}
+
+	public Boolean getmComplete()
+	{
+		return mComplete;
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		return o instanceof OrderList && ((OrderList) o).mId == mId;
+	}
+
 	public void AddOrder(OrderItem order)
 	{
 		items.add(order);
+		mSerializedString = serialize();
 	}
 
-	public ArrayList<OrderItem> getItems()
+	public List<OrderItem> getItems()
 	{
 		return items;
 	}
@@ -50,5 +82,34 @@ public class OrderList
 		}
 
 		return total;
+	}
+
+	public String serialize()
+	{
+		String serializedString = "";
+
+		for (OrderItem order : items)
+			serializedString += order.itemName + "," + order.price + ":";
+
+		return serializedString;
+	}
+
+	public void deSerialize()
+	{
+		items = new ArrayList<OrderItem>();
+		try
+		{
+			for (String pair : mSerializedString.split(":"))
+			{
+				String[] pairSplit = pair.split(",");
+
+				String n = pairSplit[0];
+				float p = Float.parseFloat(pairSplit[1]);
+				items.add(new OrderItem(n, p));
+			}
+		} catch (Exception ex)
+		{
+			Log.e(OrderList.class.getName(), "Error is parsing: " + ex);
+		}
 	}
 }

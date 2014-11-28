@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tapster.R;
 
@@ -117,7 +116,6 @@ public class BarMenuFragment extends Fragment
 			{
 				TextView textView = (TextView) viewClicked;
 				SetCategory = textView.getText().toString();
-				Toast.makeText(ctx, SetCategory, Toast.LENGTH_LONG).show();
 				getFragmentManager().beginTransaction().replace(R.id.container, new ItemMenuFragment()).addToBackStack("").commit();
 			}
 		});
