@@ -20,6 +20,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.tapster.R;
+import com.tapster.customer.ProfileFragment;
 import com.tapster.data.OrderItem;
 import com.tapster.data.OrderList;
 import com.tapster.ui.OrderItemAdapter;
@@ -34,7 +35,7 @@ public class OpenTabFragment extends Fragment
 	private static float subTotal;
 	private float tipAmount;
 	private Button pay;
-	//private Button later;
+	// private Button later;
 	private ToggleButton tip15, tip20, tip30, tipCustom;
 
 	private Context ctx;
@@ -59,20 +60,18 @@ public class OpenTabFragment extends Fragment
 		tip20.setChecked(true);
 
 		pay = (Button) rootView.findViewById(R.id.button_Pay);
-//		later = (Button) rootView.findViewById(R.id.button_Later);
+		// later = (Button) rootView.findViewById(R.id.button_Later);
 		ListView tabText = (ListView) rootView.findViewById(R.id.tabList);
-		adapter = new OrderItemAdapter(ctx,R.layout.listentry_menu_item, items.getItems());
+		adapter = new OrderItemAdapter(ctx, R.layout.listentry_menu_item, items.getItems());
 		adapter.setNotifyOnChange(true);
 		tabText.setAdapter(adapter);
 		setCCSpinner();
 		setTotal();
 		ClickBars(pay);
-//		ClickBars(later);
+		// ClickBars(later);
 
 		return rootView;
 	}
-
-	
 
 	private void setTipButtons(ToggleButton b)
 	{
@@ -162,7 +161,7 @@ public class OpenTabFragment extends Fragment
 	private void setCCSpinner()
 	{
 		Spinner dropdown = (Spinner) rootView.findViewById(R.id.spinner_CC);
-		String[] CClist = new String[] { "Visa ending in 666", "othercard%" };
+		String[] CClist = new String[] { "Credit Card ending in " + ProfileFragment.getCreditCard() };
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, R.layout.myspineritem, CClist);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		dropdown.setAdapter(adapter);
@@ -196,11 +195,19 @@ public class OpenTabFragment extends Fragment
 				switch (v.getId())
 				{
 				case R.id.button_Pay:
-					String message = total + " charged to: ";
-					Toast.makeText(ctx, message, Toast.LENGTH_LONG).show();
-					items = new OrderList();
-					adapter.clear();
-					clearTotal();
+
+					if (total > 0)
+					{
+						items.AddOrder(new OrderItem("Tip", tipAmount));
+						String message = total + " charged to: " + ProfileFragment.getCreditCard();
+						Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
+						ClosedTabFragment.addNewItem(items);
+						items = new OrderList();
+						adapter.clear();
+						clearTotal();
+					} else
+						Toast.makeText(ctx, "No items", Toast.LENGTH_SHORT).show();
+
 					break;
 				}
 
@@ -232,11 +239,11 @@ public class OpenTabFragment extends Fragment
 
 	public static void getNewOrders(OrderList newOrder)
 	{
-		for (OrderItem order: newOrder.getItems())
+		for (OrderItem order : newOrder.getItems())
 		{
 			items.AddOrder(order);
 		}
-		subTotal+=items.getTotal();
+		subTotal += items.getTotal();
 	}
 
 }

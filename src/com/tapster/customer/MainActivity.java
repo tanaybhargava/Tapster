@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.tapster.R;
 import com.tapster.azureConnectivity.AzureServiceConnection;
 import com.tapster.barMenu.BarMenuFragment;
+import com.tapster.barMenu.ClosedTabFragment;
 import com.tapster.barMenu.CurrentOrderFragment;
 import com.tapster.barMenu.PendingOrderFragment;
 import com.tapster.barMenu.OpenTabFragment;
@@ -76,6 +77,9 @@ public class MainActivity extends ActionBarActivity implements
 			break;
 		case 4:
 			fragment = new OpenTabFragment();
+			break;
+		case 5:
+			fragment = new ClosedTabFragment();
 			break;
 
 		default:

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.tapster.R;
 import com.tapster.data.OrderList;
@@ -24,22 +25,29 @@ public class OrderListAdapter extends ArrayAdapter<OrderList>
 		layout = resource;
 	}
 
-	@SuppressLint("ViewHolder")
+	@SuppressLint({ "ViewHolder", "CutPasteId" })
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		convertView = LayoutInflater.from(this.getContext()).inflate(layout, parent, false);
 
+		OrderList item = getItem(position);
+
 		if (layout == R.layout.listentry_pendingorder)
 		{
 
 			CheckBox name = (CheckBox) convertView.findViewById(R.id.list_item);
-			OrderList item = getItem(position);
-			name.setText(item.printOrder());
+			name.setText(item.printOrder(false));
 			name.setChecked(item.getmComplete());
 
 			if (item.getmComplete())
 				name.setTextColor(item.getmColor());
+		}
+
+		if (layout == R.layout.listentry_textview)
+		{
+			TextView tv = (TextView) convertView.findViewById(R.id.list_item);
+			tv.setText(item.printOrder(true) + "\n" + "Total = $" + item.getTotal());
 		}
 
 		return convertView;

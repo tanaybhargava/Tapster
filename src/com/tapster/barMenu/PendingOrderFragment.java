@@ -31,8 +31,8 @@ import com.tapster.ui.OrderListAdapter;
 public class PendingOrderFragment extends Fragment
 {
 
-	public static ArrayList<OrderList> items = new ArrayList<OrderList>();
-	public static OrderListAdapter adapter;
+	private  ArrayList<OrderList> items = new ArrayList<OrderList>();
+	private  OrderListAdapter adapter;
 
 	private Context ctx;
 	private View rootView;
@@ -55,7 +55,7 @@ public class PendingOrderFragment extends Fragment
 		// Set overlay progress bar.
 		overlay = (RelativeLayout) rootView.findViewById(R.id.overlay);
 
-		ListView POText = (ListView) rootView.findViewById(R.id.pending_order_list);
+		ListView POText = (ListView) rootView.findViewById(R.id.order_list);
 		adapter = new OrderListAdapter(ctx, R.layout.listentry_pendingorder, items);
 		adapter.setNotifyOnChange(true);
 
@@ -100,7 +100,7 @@ public class PendingOrderFragment extends Fragment
 
 	private void ClickPendingOrder()
 	{
-		ListView CategoryList = (ListView) rootView.findViewById(R.id.pending_order_list);
+		ListView CategoryList = (ListView) rootView.findViewById(R.id.order_list);
 		CategoryList.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override

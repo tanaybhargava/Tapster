@@ -103,7 +103,7 @@ public void onClick(View v) {
     
     	OrderItem newOrder = new OrderItem(order,price);
     	
-    	CurrentOrderFragment.getNewItem(newOrder);
+    	CurrentOrderFragment.addNewItem(newOrder);
     	exitDB();
     	dismiss();
       break;

@@ -60,13 +60,16 @@ public class OrderList
 		return items;
 	}
 
-	public String printOrder()
+	public String printOrder(boolean printPrice)
 	{
 		String result = "";
 
 		for (OrderItem order : items)
 		{
-			result += order.itemName + "\n\n";
+			String price = "";
+			if (printPrice)
+				price = ": " + order.price;
+			result += order.itemName + price + "\n\n";
 		}
 
 		return result;

@@ -1,20 +1,16 @@
 package com.tapster.customer;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
-import com.microsoft.windowsazure.mobileservices.TableQueryCallback;
 import com.tapster.R;
 import com.tapster.azureConnectivity.AzureCallback;
 import com.tapster.azureConnectivity.AzureServiceConnection;
@@ -65,29 +61,32 @@ public class LoginActivity extends Activity implements AzureCallback
 	private void UserExists()
 	{
 		progressbar.setVisibility(ProgressBar.VISIBLE);
-		MobileServiceClient mClient = AzureServiceConnection.instance.getClient();
-
-		// Get the Mobile Service Table instance to use
-		MobileServiceTable<User> mToDoTable = mClient.getTable(User.class);
-
+		final MobileServiceClient mClient = AzureServiceConnection.instance.getClient();
 		final String userId = mClient.getCurrentUser().getUserId();
 
-		mToDoTable.where().field("userid").eq(userId).execute(new TableQueryCallback<User>()
+		mClient.invokeApi("customer/profile", "get", null, User.class, new ApiOperationCallback<User>()
 		{
 
-			public void onCompleted(List<User> result, int count,
-					Exception exception, ServiceFilterResponse response)
+			@Override
+			public void onCompleted(User arg0, Exception arg1,
+					ServiceFilterResponse arg2)
 			{
-				if (exception == null)
+				if (arg0 != null)
 				{
-					if (result.size() == 0)
-						setupNewUser(userId);
-					else
-						StartMainActivity();
+					ProfileFragment.setUserData(arg0);
+					mClient.invokeApi("customer/creditcard", "get", null, String.class, new ApiOperationCallback<String>()
+					{
+						@Override
+						public void onCompleted(String arg0, Exception arg1,
+								ServiceFilterResponse arg2)
+						{
+							if (arg0 != null)
+								ProfileFragment.setCreditCard(arg0);
+							StartMainActivity();
+						}
+					});
 				} else
-				{
-					Log.e(LoginActivity.class.getName(), "Error in fetching user.");
-				}
+					setupNewUser(userId);
 			}
 		});
 	}
@@ -115,6 +114,5 @@ public class LoginActivity extends Activity implements AzureCallback
 		progressbar.setVisibility(ProgressBar.VISIBLE);
 		AzureServiceConnection.instance.authenticate(refreshToken);
 	}
-	
-	
+
 }

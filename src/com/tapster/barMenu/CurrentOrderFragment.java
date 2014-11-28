@@ -63,7 +63,7 @@ public class CurrentOrderFragment extends Fragment
 		return rootView;
 	}
 
-	public static void getNewItem(OrderItem newOrder)
+	public static void addNewItem(OrderItem newOrder)
 	{
 		currentOrderList.AddOrder(newOrder);
 

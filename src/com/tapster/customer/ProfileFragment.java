@@ -6,24 +6,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
 import com.tapster.R;
-import com.tapster.azureConnectivity.AzureServiceConnection;
 import com.tapster.data.User;
 
 public class ProfileFragment extends Fragment
 {
-	private TextView firstName;
-	private TextView lastName;
-	private TextView email;
-	private TextView mobile;
-	private TextView creditcard;
-	private RelativeLayout overlay;
+	private static User userData;
+	private static String creditCard;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -32,47 +23,38 @@ public class ProfileFragment extends Fragment
 		View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
 		// Get UI elements.
-		firstName = (TextView) rootView.findViewById(R.id.firstName);
-		lastName = (TextView) rootView.findViewById(R.id.lastName);
-		email = (TextView) rootView.findViewById(R.id.email);
-		mobile = (TextView) rootView.findViewById(R.id.mobile);
-		creditcard = (TextView) rootView.findViewById(R.id.creditcardnumber);
+		TextView firstNameTv = (TextView) rootView.findViewById(R.id.firstName);
+		TextView lastNameTv = (TextView) rootView.findViewById(R.id.lastName);
+		TextView emailTv = (TextView) rootView.findViewById(R.id.email);
+		TextView mobileTv = (TextView) rootView.findViewById(R.id.mobile);
+		TextView creditcardTv = (TextView) rootView.findViewById(R.id.creditcardnumber);
 
-		// Set overlay progress bar.
-		overlay = (RelativeLayout) rootView.findViewById(R.id.overlay);
-		overlay.setVisibility(RelativeLayout.VISIBLE);
-
-		MobileServiceClient mClient = AzureServiceConnection.instance.getClient();
-
-		mClient.invokeApi("customer/profile", "get", null, User.class, new ApiOperationCallback<User>()
-		{
-
-			@Override
-			public void onCompleted(User arg0, Exception arg1,
-					ServiceFilterResponse arg2)
-			{
-				if (arg0 != null)
-				{
-					firstName.setText("First Name : " + arg0.getFirstName());
-					lastName.setText("Last Name : " + arg0.getLastName());
-					email.setText("Email :" + arg0.getEmail());
-					mobile.setText("Mobile : " + arg0.getMobile());
-				}
-			}
-		});
-
-		mClient.invokeApi("customer/creditcard", "get", null, String.class, new ApiOperationCallback<String>()
-		{
-			@Override
-			public void onCompleted(String arg0, Exception arg1,
-					ServiceFilterResponse arg2)
-			{
-				if (arg0 != null)
-					creditcard.setText("Credit Card Ending With : " + arg0);
-				overlay.setVisibility(RelativeLayout.INVISIBLE);
-			}
-		});
+		firstNameTv.setText("First Name : " + userData.getFirstName());
+		lastNameTv.setText("Last Name : " + userData.getLastName());
+		emailTv.setText("Email :" + userData.getEmail());
+		mobileTv.setText("Mobile : " + userData.getMobile());
+		creditcardTv.setText("Credit Card Ending with:" + creditCard);
 
 		return rootView;
+	}
+
+	public static User getUserData()
+	{
+		return userData;
+	}
+
+	public static void setUserData(User data)
+	{
+		userData = data;
+	}
+
+	public static String getCreditCard()
+	{
+		return creditCard;
+	}
+
+	public static void setCreditCard(String crCard)
+	{
+		creditCard = crCard;
 	}
 }
