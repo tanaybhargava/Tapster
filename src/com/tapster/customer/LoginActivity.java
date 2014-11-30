@@ -14,6 +14,8 @@ import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
 import com.tapster.R;
 import com.tapster.azureConnectivity.AzureCallback;
 import com.tapster.azureConnectivity.AzureServiceConnection;
+import com.tapster.azureConnectivity.Config;
+import com.tapster.bartender.BarTenderActivity;
 import com.tapster.data.User;
 
 public class LoginActivity extends Activity implements AzureCallback
@@ -25,6 +27,7 @@ public class LoginActivity extends Activity implements AzureCallback
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_login);
 
 		progressbar = (ProgressBar) findViewById(R.id.progressBarMain);
@@ -102,7 +105,13 @@ public class LoginActivity extends Activity implements AzureCallback
 
 	private void StartMainActivity()
 	{
-		Intent myIntent = new Intent(this, MainActivity.class);
+		Intent myIntent;
+
+		if (Config.barTenderMode)
+			myIntent = new Intent(this, BarTenderActivity.class);
+		else
+			myIntent = new Intent(this, MainActivity.class);
+
 		startActivity(myIntent);
 		finish();
 	}

@@ -7,6 +7,11 @@ import android.util.Log;
 
 public class OrderList
 {
+	public void setmColor(int mColor)
+	{
+		this.mColor = mColor;
+	}
+
 	@com.google.gson.annotations.SerializedName("id")
 	private String mId;
 
@@ -31,6 +36,19 @@ public class OrderList
 	public OrderList()
 	{
 		items = new ArrayList<OrderItem>();
+	}
+
+	public OrderList(String mId, String mSerializedString, int mColor,
+			Boolean mComplete)
+	{
+		this.mId = mId;
+		this.mSerializedString = mSerializedString;
+		this.mColor = mColor;
+		this.mComplete = mComplete;
+
+		items = new ArrayList<OrderItem>();
+
+		deSerialize();
 	}
 
 	public int getmColor()
@@ -87,12 +105,17 @@ public class OrderList
 		return total;
 	}
 
+	public void setmComplete(Boolean mComplete)
+	{
+		this.mComplete = mComplete;
+	}
+
 	public String serialize()
 	{
 		String serializedString = "";
 
 		for (OrderItem order : items)
-			serializedString += order.itemName + "," + order.price + ":";
+			serializedString += order.itemName + "," + order.price + "&";
 
 		return serializedString;
 	}
@@ -102,7 +125,7 @@ public class OrderList
 		items = new ArrayList<OrderItem>();
 		try
 		{
-			for (String pair : mSerializedString.split(":"))
+			for (String pair : mSerializedString.split("&"))
 			{
 				String[] pairSplit = pair.split(",");
 

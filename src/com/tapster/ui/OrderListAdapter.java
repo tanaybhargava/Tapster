@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,9 @@ public class OrderListAdapter extends ArrayAdapter<OrderList>
 			name.setChecked(item.getmComplete());
 
 			if (item.getmComplete())
-				name.setTextColor(item.getmColor());
+				convertView.setBackgroundColor(item.getmColor());
+			else
+				convertView.setBackgroundColor(Color.WHITE);
 		}
 
 		if (layout == R.layout.listentry_textview)
@@ -52,5 +55,4 @@ public class OrderListAdapter extends ArrayAdapter<OrderList>
 
 		return convertView;
 	}
-
 }

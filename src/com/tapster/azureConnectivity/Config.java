@@ -2,6 +2,9 @@ package com.tapster.azureConnectivity;
 
 public class Config
 {
+	// Mode	
+	public static boolean barTenderMode = false;
+	
 	// Azure Credentials:
 	public static final String APPURL = "https://tapsterjs.azure-mobile.net/";
 	public static final String APPKEY = "BfJYUWGZARrDnFuOwkCsWJYPrIFrIq87";
